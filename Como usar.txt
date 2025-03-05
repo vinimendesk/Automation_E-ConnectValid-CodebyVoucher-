@@ -1,0 +1,19 @@
+O script não possui função para parar operação. Caso necessário, abra o VS Code e pare de forma manual.
+
+1 - Prepare o ambiente.
+	* Deixe aberto a página Ar Gestão com o zoom em 90%.
+	* Coloque a planilha na pasta "Planilhas" e salve como "fechamento(1)".
+
+2 - Execute o script.
+	* Ao executar o script, haverá um timer de 3 segundos para fazer a mundança da tela do VS Code para da Ar Gestão.
+
+3 - Cuidados ao executar o script.
+	* Não toque ou mexa no computador enquanto estiver execução, exceto para parar o script.
+	* Qualquer toque no mouse ou clique no teclado fará o script adicionar dados errados ou mexer nos dados da gestão.
+
+13 x (quantidade_de_dados) / 3600 = quantidade de horas de seviço.
+
+Estatísticas de Uso:
+	* 6 horas de execução, 85% de aproveitamento.
+	*
+	* 
