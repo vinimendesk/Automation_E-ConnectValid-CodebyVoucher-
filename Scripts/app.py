@@ -6,6 +6,7 @@ import pyperclip
 import time
 import re
 import keyboard
+import threading
 from bot import automacao
 
 # Variável global que verifica se foi feito o upload do arquivo.
@@ -25,7 +26,7 @@ pendenteString = "PENDENTE"
 # Componentes.
 # Título do app.
 titulo_text = ft.Text(
-    "BOT COLETA VOUCHER",
+    "BOT COLETA VOUCHER VALID",
     size=18,
     weight=ft.FontWeight.BOLD,
     font_family="Roboto",
@@ -196,7 +197,7 @@ def tutorial_page():
                                     ft.Column(
                                         [
                                             passo2_img,
-                                            passo2_text,
+                                               passo2_text,
                                         ],
                                         spacing=10,
                                     ),
@@ -268,23 +269,31 @@ def main(page: ft.Page):
                 status.value = f"Erro ao processar o arquivo: {err}"
                 status.update()
     
+     # Função para monitorar a tecla ESC
+    def esc_listener():
+        global stop_execution
+        keyboard.wait("esc")  # Aguarda até que a tecla ESC seja pressionada
+        stop_execution = True  # Sinaliza a interrupção
+
     # Função para fazer a limpeza da planilha.
     def execute_file(e):
-        global is_uploaded
+        global is_uploaded, status
         if is_uploaded:
             status.value = "Processando arquivo..."
             status.update()
 
             # (Executar_button) Função remover o hífen e o 9, caso necessário.
             def automacao_bot(planilhaCodigo):
+                
+                global stop_execution
+                stop_execution = False  # Reinicia a flag antes de começar
 
                 # Troca para a tela do site.
                 pygui.hotkey("alt", "tab")
 
                 # Substituindo/Adicionando parceiro.
                 for index, codigo in enumerate(planilhaCodigo):
-
-                    if keyboard.is_pressed("esc"):
+                    if stop_execution:
                         status.value = "Processo interrompido pelo usuário"
                         status.update()
                         return
@@ -303,11 +312,18 @@ def main(page: ft.Page):
                 status.value = "Planilha processada com sucesso!"
                 status.update()
 
-            automacao_bot(planilhaCodigo)
+            # Inicia a thread de monitoramento do ESC
+            esc_thread = threading.Thread(target=esc_listener, daemon=True)
+            esc_thread.start()
+
+            # Inicia a thread de processamento
+            process_thread = threading.Thread(target=automacao_bot(planilhaCodigo), daemon=True)
+            process_thread.start()
 
         else:
             status.value = "Faça upload da planilha primeiro."
             status.update()
+
 
     #Cria o FilePicker para selecionar os arquivos.
     file_picker = ft.FilePicker(on_result=upload_file_result)

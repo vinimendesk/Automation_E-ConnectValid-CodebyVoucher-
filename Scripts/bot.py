@@ -11,11 +11,11 @@ def automacao(codigo):
     time.sleep(2)
 
     # Clica no botão filtro.
-    pygui.click(x=430, y=193, button="left")
+    pygui.click(x=148, y=194, button="left")
     time.sleep(1)
 
     # Clica no TextField.
-    pygui.click(x=489, y=420, button="left")
+    pygui.click(x=514, y=439, button="left")
     time.sleep(1)
 
     # Seleciona todo o texto.
@@ -27,11 +27,11 @@ def automacao(codigo):
     time.sleep(0.5)  # Espera um pouco após escrever
 
     # Clica em pesquisar.
-    pygui.click(x=883, y=543, button="left")
+    pygui.click(x=871, y=543, button="left")
     time.sleep(4)  # Espera a página carregar
 
     # Seleciona editar informação.
-    pygui.click(x=1249, y=243, button="left")
+    pygui.click(x=1247, y=242, button="left")
     time.sleep(5)
 
     # Clica no campo voucher.
